@@ -2,7 +2,7 @@
     $routeGroup = 'transfer.'.strtolower($type);
 @endphp
 
-<form class="form-horizontal" action="{{ route($routeGroup.'.import') }}" method="post" enctype="multipart/form-data">
+<form class="form-horizontal ajax" action="{{ route($routeGroup.'.import') }}" method="post" enctype="multipart/form-data">
     <fieldset>
         <legend>{{ $type }}</legend>
 
