@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\CustomUser;
 use App\Services\Transfer\BaseService;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -22,6 +23,8 @@ class CustomUserImport implements ToModel, WithHeadingRow
             $data[$field] = $row[$field];
         }
 
-        return new CustomUser($data);
+        $validator = Validator::make($row, BaseService::VALIDATION_RULES, BaseService::VALIDATION_MESSAGES);
+
+        return new CustomUser($validator->validated());
     }
 }

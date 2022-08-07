@@ -6,6 +6,7 @@ namespace App\Services\Transfer;
 
 use App\Models\CustomUser;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Validator;
 
 class PhpService extends BaseService
 {
@@ -50,14 +51,18 @@ class PhpService extends BaseService
 
             if ($row !== 0) {
 
-                // TODO: validation
-
                 foreach ($fields as $i => $field) { // could use FIELDS from first row in CSV, but im hardcoding it
                     $parsedRow[$field] = $data[$i];
                 }
 
+                $validator = Validator::make($parsedRow, self::VALIDATION_RULES, self::VALIDATION_MESSAGES);
+
+                $parsedRow = $validator->validated();
+                $parsedRow['created_at'] = $parsedRow['updated_at'] = now();
 
                 $parsed []= $parsedRow;
+
+
             }
 
             ++$row;
