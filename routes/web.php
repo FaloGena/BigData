@@ -16,3 +16,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+/* Transfer - import\export */
+Route::prefix('transfer')->name('transfer.')->group( function () {
+
+    // for IDE to navigate through
+    $baseController = \App\Http\Controllers\Transfer\BaseController::class;
+
+    $waysToTransfer = [
+        'Php',
+        'Laravel',
+        'Spatie'
+    ];
+
+    foreach ($waysToTransfer as $way) {
+        $lowercase = strtolower($way);
+
+        Route::get("{$lowercase}/export", ["\App\Http\Controllers\Transfer\\{$way}Controller", 'export'])->name("{$lowercase}.export");
+        Route::post("{$lowercase}/import", ["\App\Http\Controllers\Transfer\\{$way}Controller", 'import'])->name("{$lowercase}.import");
+    }
+});
