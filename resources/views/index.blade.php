@@ -36,6 +36,13 @@
                })
                .fail(function (response) {
                     console.log(response);
+                   var errorJSON = JSON.parse(response.responseText);
+                   var errorString = '';
+                   $.each( errorJSON.errors, function( key, value) {
+                       errorString += value + '\n\n';
+                   });
+
+                    alert(errorString);
                });
 
            })

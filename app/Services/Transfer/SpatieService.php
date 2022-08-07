@@ -6,6 +6,7 @@ namespace App\Services\Transfer;
 
 use App\Models\CustomUser;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 
@@ -25,11 +26,18 @@ class SpatieService extends BaseService
          */
         $rows = SimpleExcelReader::create($path)->getRows();
 
-        $rows->each(function(array $rowProperties) {
+        $parsed = [];
+        $rows->each(function(array $rowProperties) use(&$parsed) {
 
-            // TODO: validation
-            CustomUser::create($rowProperties);
+            $validator = Validator::make($rowProperties, self::VALIDATION_RULES, self::VALIDATION_MESSAGES);
+
+            $row = $validator->validated();
+            $row['created_at'] = $row['updated_at'] = now();
+
+            $parsed[] = $row;
         });
+
+        CustomUser::insert($parsed);
     }
 
     /**

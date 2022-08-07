@@ -16,8 +16,6 @@ class LaravelService extends BaseService
      */
     public function import($file)
     {
-        // TODO: validation
-
         return Excel::import(new CustomUserImport, $file);
     }
 

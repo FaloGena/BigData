@@ -17,6 +17,7 @@ abstract class BaseController extends Controller
      */
     protected $service;
 
+
     abstract public function __construct();
 
     /**
