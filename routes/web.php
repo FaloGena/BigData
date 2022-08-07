@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\FrontController::class, 'index']);
+Route::get('/requests', [\App\Http\Controllers\FrontController::class, 'requestsInfo']);
 
 
 /* Transfer - import\export */
