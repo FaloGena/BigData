@@ -8,6 +8,7 @@ use App\Repositories\CustomUserRepository;
 
 abstract class BaseController extends Controller
 {
+
     const EXPORT_FILE_NAME = 'customUsers.csv';
 
     /**
@@ -29,6 +30,7 @@ abstract class BaseController extends Controller
         $file = $request->file('file');
 
         $this->service->import($file);
+
 
         return response()->json('done', 200);
     }

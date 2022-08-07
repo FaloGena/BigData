@@ -3,12 +3,18 @@
 @section('content')
     <div id="wrap">
         <div class="container">
+
             <div class="row">
                 @foreach($types as $type)
                     @component('components.form')
                         @slot('type', $type)
                     @endcomponent
                 @endforeach
+            </div>
+
+            <div class="" style="float: right;">
+                <a class="btn btn-info" role="button" href="{{ route('requests_info') }}">Check requests</a>
+                <a class="btn btn-danger" role="button" href="{{ route('clear_table') }}">Clear DataBase table</a>
             </div>
         </div>
     </div>
