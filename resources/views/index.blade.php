@@ -38,6 +38,7 @@
                    contentType: false,
                })
                .done(function (response) {
+                   alert('done');
                    console.log(response);
                })
                .fail(function (response) {
