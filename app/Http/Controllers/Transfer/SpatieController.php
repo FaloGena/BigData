@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Transfer;
 
+use App\Http\Requests\ImportRequest;
 use Illuminate\Http\Request;
 
 class SpatieController extends BaseController
 {
-    public function import()
+    public function import(ImportRequest $request)
     {
         // TODO: Implement import() method.
     }

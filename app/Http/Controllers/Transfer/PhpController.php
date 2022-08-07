@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers\Transfer;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ImportRequest;
 
 class PhpController extends BaseController
 {
-    public function import()
+    public function __construct()
     {
-        // TODO: Implement import() method.
+        $this->service = new \App\Services\Transfer\PhpService();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function import(ImportRequest $request)
+    {
+        return parent::import($request);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function export()
     {
-        // TODO: Implement export() method.
+        return parent::export();
     }
 }
