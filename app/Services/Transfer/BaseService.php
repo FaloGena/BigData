@@ -47,4 +47,14 @@ abstract class BaseService
             "Expires"             => "0"
         ];
     }
+
+    protected function modelToRow(CustomUser $user)
+    {
+        $row = $user->toArray();
+        // could use hidden attributes in model, or even disable timestamps, but this looks closer to realistic scenario (apart from manual field => value)
+        unset($row['id'], $row['created_at'], $row['updated_at']);
+        $row['password'] = $user->password;
+
+        return $row;
+    }
 }

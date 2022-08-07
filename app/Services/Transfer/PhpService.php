@@ -77,10 +77,7 @@ class PhpService extends BaseService
         fputcsv($file, $fields);
 
         foreach ($customUsers as $user) {
-            $row = $user->toArray();
-            // could use hidden attributes in model, or even disable timestamps, but this looks closer to realistic scenario (apart from manual field => value)
-            unset($row['id'], $row['created_at'], $row['updated_at']);
-            $row['password'] = $user->password;
+            $row = $this->modelToRow($user);
 
             fputcsv($file, $row);
         }
