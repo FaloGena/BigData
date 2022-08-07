@@ -4,13 +4,42 @@
 namespace App\Services\Transfer;
 
 
+use App\Models\CustomUser;
+use Illuminate\Database\Eloquent\Collection;
+
 class PhpService extends BaseService
 {
+    /**
+     * @inheritDoc
+     */
+    public function import($file)
+    {
+        $parsed = $this->parseCSV($file, self::FIELDS);
+
+//        dd($parsed);
+        return CustomUser::insert($parsed);
+    }
 
     /**
      * @inheritDoc
      */
-    public function parseCSV($file, $fields)
+    public function export($customUsers, $fileName)
+    {
+        $headers = $this->getExportHeaders($fileName);
+
+        $writeToCSV = function() use($customUsers) {
+            $this->writeToCSV(self::FIELDS, $customUsers);
+        };
+
+        return response()->stream($writeToCSV, 200, $headers);
+    }
+
+    /**
+     * @param $file
+     * @param $fields
+     * @return array
+     */
+    protected function parseCSV($file, $fields)
     {
         $file = fopen($file, "r");
 
@@ -38,9 +67,11 @@ class PhpService extends BaseService
     }
 
     /**
-     * @inheritDoc
+     * @param array $fields
+     * @param Collection<CustomUser> $customUsers
+     * @return mixed
      */
-    public function writeToCSV($fields, $customUsers)
+    protected function writeToCSV($fields, $customUsers)
     {
         $file = fopen('php://output', 'w');
         fputcsv($file, $fields);

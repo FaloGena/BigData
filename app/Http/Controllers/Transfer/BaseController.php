@@ -4,18 +4,11 @@ namespace App\Http\Controllers\Transfer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
-use App\Models\CustomUser;
+use App\Repositories\CustomUserRepository;
 
 abstract class BaseController extends Controller
 {
-    const FIELDS = [
-        'user_name',
-        'first_name',
-        'last_name',
-        'patronymic',
-        'email',
-        'password',
-    ];
+    const EXPORT_FILE_NAME = 'customUsers.csv';
 
     /**
      * Service where logic for parsing\writing is stored
@@ -34,10 +27,7 @@ abstract class BaseController extends Controller
     {
         $file = $request->file('file');
 
-        $parsed = $this->service->parseCSV($file, self::FIELDS);
-
-        dd($parsed);
-        CustomUser::insert($parsed);
+        $this->service->import($file);
 
         return response()->json('done', 200);
     }
@@ -47,15 +37,8 @@ abstract class BaseController extends Controller
      */
     public function export()
     {
-        $fileName = 'customUsers.csv';
-        $customUsers = CustomUser::all();
+        $customUsers = (new CustomUserRepository())->getForExport();
 
-        $headers = $this->service->getExportHeaders($fileName);
-
-        $writeToCSV = function() use($customUsers) {
-            $this->service->writeToCSV(self::FIELDS, $customUsers);
-        };
-
-        return response()->stream($writeToCSV, 200, $headers);
+        return $this->service->export($customUsers, self::EXPORT_FILE_NAME);
     }
 }
