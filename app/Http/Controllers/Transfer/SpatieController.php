@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Transfer;
 
 use App\Http\Requests\ImportRequest;
-use Illuminate\Http\Request;
 
 class SpatieController extends BaseController
 {
+    public function __construct()
+    {
+        $this->service = new \App\Services\Transfer\SpatieService();
+    }
+
     public function import(ImportRequest $request)
     {
-        // TODO: Implement import() method.
+        return parent::import($request);
     }
 
     public function export()
     {
-        // TODO: Implement export() method.
+        return parent::export();
     }
 }
