@@ -9,19 +9,28 @@ use Illuminate\Database\Eloquent\Collection;
 
 abstract class BaseService
 {
-    /**
-     * @param $file
-     * @param array $fields
-     * @return array
-     */
-    abstract public function parseCSV($file, array $fields);
+    const FIELDS = [
+        'user_name',
+        'first_name',
+        'last_name',
+        'patronymic',
+        'email',
+        'password',
+    ];
 
     /**
-     * @param array $fields
+     * @param $file
+     * @return array
+     */
+    abstract public function import($file);
+
+
+    /**
      * @param Collection<CustomUser> $customUsers
+     * @param string $fileName
      * @return mixed
      */
-    abstract public function writeToCSV(array $fields, $customUsers);
+    abstract public function export($customUsers, string $fileName);
 
 
     /**

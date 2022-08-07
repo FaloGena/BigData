@@ -3,17 +3,27 @@
 namespace App\Http\Controllers\Transfer;
 
 use App\Http\Requests\ImportRequest;
-use Illuminate\Http\Request;
 
 class LaravelController extends BaseController
 {
-    public function import(ImportRequest $request)
+    public function __construct()
     {
-        // TODO: Implement import() method.
+        $this->service = new \App\Services\Transfer\LaravelService();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function import(ImportRequest $request)
+    {
+        return parent::import($request);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function export()
     {
-        // TODO: Implement export() method.
+        return parent::export();
     }
 }
