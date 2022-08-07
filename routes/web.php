@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\FrontController::class, 'index']);
-Route::get('/requests', [\App\Http\Controllers\FrontController::class, 'requestsInfo']);
+Route::get('/', [\App\Http\Controllers\FrontController::class, 'index'])->name('index');
+Route::get('/clear-table', [\App\Http\Controllers\FrontController::class, 'clearTable'])->name('clear_table');
+Route::get('/requests', [\App\Http\Controllers\FrontController::class, 'requestsInfo'])->name('requests_info');
 
 
 /* Transfer - import\export */
-Route::prefix('transfer')->name('transfer.')->group( function () {
+Route::prefix('transfer')->name('transfer.')->middleware(['saveRequest', 'updateRequest'])->group( function () {
 
     // for IDE to navigate through
     $baseController = \App\Http\Controllers\Transfer\BaseController::class;
